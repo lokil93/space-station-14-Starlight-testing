@@ -328,10 +328,18 @@ namespace Content.Server.Chemistry.EntitySystems
         {
             outputSolution = null;
 
-           if (!_solutionContainerSystem.TryGetSolution(chemMaster.Owner, SharedChemMaster.BufferSolutionName, out _, out var solution))
-           {
+            // Changes to take solution from Beaker
+            // Same line as transfer Reagent/Dispose reagent Start
+            var container = _itemSlotsSystem.GetItemOrNull(chemMaster, SharedChemMaster.InputSlotName); 
+            if (container == null)
+            {
                 return false;
-           }
+            }
+            if (!_solutionContainerSystem.TryGetFitsInDispenser(container.Value, out var beakerSolution, out var solution))
+            {
+                return false;
+            }
+            // End
 
 
             if (solution.Volume == 0)
@@ -350,6 +358,7 @@ namespace Content.Server.Chemistry.EntitySystems
             }
 
             outputSolution = solution.SplitSolution(neededVolume);
+            _solutionContainerSystem.UpdateChemicals(beakerSolution.Value); // Update the beaker solution to reflect the new ammount
             return true;
         }
 
