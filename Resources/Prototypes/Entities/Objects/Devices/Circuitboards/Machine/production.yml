@@ -554,6 +554,29 @@
           amount: 2
           defaultPrototype: Beaker
 
+# Starlight Start
+
+- type: entity
+  id: MedDispenserMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: medical dispenser machine board
+  description: A machine printed circuit board for a medical dispenser.
+  components:
+    - type: Sprite
+      state: medical
+    - type: MachineBoard
+      prototype: MedDispenserEmpty
+      stackRequirements:
+        Capacitor: 1
+        Glass: 1
+        Steel: 3
+      tagRequirements:
+        GlassBeaker:
+          amount: 2
+          defaultPrototype: Beaker
+
+# End
+
 - type: entity
   id: ChemDispenserMachineCircuitboard
   parent: BaseMachineCircuitboard

@@ -1,0 +1,57 @@
+- type: entity
+  id: MedDispenser
+  name: medical dispenser
+  suffix: Filled
+  parent: ReagentDispenserBase
+  description: An industrial grade medical dispenser.
+  components:
+  - type: Sprite
+    sprite: Structures/MedDispenser.rsi
+    state: med-working
+    snapCardinals: true
+  - type: ReagentDispenser
+    storageWhitelist:
+      tags:
+      - ChemDispensable
+    pack: ChemDispenserStandardInventory
+  - type: ApcPowerReceiver
+  - type: ExtensionCableReceiver
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalGlassBreak
+      - !type:ChangeConstructionNodeBehavior
+        node: machineFrame
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: Machine
+    board: MedDispenserMachineCircuitboard
+  - type: GuideHelp
+    guides:
+    - Chemicals
+    - Chemist
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.25, -0.4, 0.25, 0.4"
+        density: 190
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+
+- type: entity
+  id: MedDispenserEmpty
+  name: medical dispenser
+  suffix: Empty
+  parent: MedDispenser
+  components:
+  - type: ReagentDispenser
+    pack: EmptyInventory
