@@ -2,7 +2,7 @@
   id: MedDispenser
   name: medical dispenser
   suffix: Filled
-  parent: ReagentDispenserBase
+  parent: MedDispenserBase
   description: An industrial grade medical dispenser.
   components:
   - type: Sprite

@@ -130,4 +130,132 @@ namespace Content.Shared.Chemistry
     {
         Key
     }
+
+
+    // Starlight Start
+ //public sealed class SharedReagentDispenser
+  //  {
+  //      public const string OutputSlotName = "beakerSlot";
+  //  }
+
+    [Serializable, NetSerializable]
+    public sealed class MedDispenserSetDispenseAmountMessage : BoundUserInterfaceMessage
+    {
+        public readonly MedDispenserDispenseAmount MedDispenserDispenseAmount;
+
+        public MedDispenserSetDispenseAmountMessage(MedDispenserDispenseAmount amount)
+        {
+            MedDispenserDispenseAmount = amount;
+        }
+
+        /// <summary>
+        ///     Create a new instance from interpreting a String as an integer,
+        ///     throwing an exception if it is unable to parse.
+        /// </summary>
+        public MedDispenserSetDispenseAmountMessage(String s)
+        {
+            switch (s)
+            {
+                case "1":
+                    MedDispenserDispenseAmount = MedDispenserDispenseAmount.U1;
+                    break;
+                case "5":
+                    MedDispenserDispenseAmount = MedDispenserDispenseAmount.U5;
+                    break;
+                case "10":
+                    MedDispenserDispenseAmount = MedDispenserDispenseAmount.U10;
+                    break;
+                case "15":
+                    MedDispenserDispenseAmount = MedDispenserDispenseAmount.U15;
+                    break;
+                case "20":
+                    MedDispenserDispenseAmount = MedDispenserDispenseAmount.U20;
+                    break;
+                case "25":
+                    MedDispenserDispenseAmount = MedDispenserDispenseAmount.U25;
+                    break;
+                case "30":
+                    MedDispenserDispenseAmount = MedDispenserDispenseAmount.U30;
+                    break;
+                case "50":
+                   MedDispenserDispenseAmount = MedDispenserDispenseAmount.U50;
+                    break;
+                case "100":
+                    MedDispenserDispenseAmount = MedDispenserDispenseAmount.U100;
+                    break;
+                default:
+                    throw new Exception($"Cannot convert the string `{s}` into a valid ReagentDispenser DispenseAmount");
+            }
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class MedDispenserDispenseReagentMessage : BoundUserInterfaceMessage
+    {
+        public readonly string SlotId;
+
+        public MedDispenserDispenseReagentMessage(string slotId)
+        {
+            SlotId = slotId;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class MedDispenserClearContainerSolutionMessage : BoundUserInterfaceMessage
+    {
+
+    }
+
+    public enum MedDispenserDispenseAmount
+    {
+        U1 = 1,
+        U5 = 5,
+        U10 = 10,
+        U15 = 15,
+        U20 = 20,
+        U25 = 25,
+        U30 = 30,
+        U50 = 50,
+        U100 = 100,
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class MedInventoryItem(string storageSlotId, string reagentLabel, FixedPoint2 quantity, Color reagentColor)
+    {
+        public string StorageSlotId = storageSlotId;
+        public string ReagentLabel = reagentLabel;
+        public FixedPoint2 Quantity = quantity;
+        public Color ReagentColor = reagentColor;
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class MedDispenserBoundUserInterfaceState : BoundUserInterfaceState
+    {
+        public readonly ContainerInfo? OutputContainer;
+
+        public readonly NetEntity? OutputContainerEntity;
+
+        /// <summary>
+        /// A list of the reagents which this dispenser can dispense.
+        /// </summary>
+        public readonly List<ReagentInventoryItem> Inventory;
+
+        public readonly ReagentDispenserDispenseAmount SelectedDispenseAmount;
+
+        public MedDispenserBoundUserInterfaceState(ContainerInfo? outputContainer, NetEntity? outputContainerEntity, List<ReagentInventoryItem> inventory, ReagentDispenserDispenseAmount selectedDispenseAmount)
+        {
+            OutputContainer = outputContainer;
+            OutputContainerEntity = outputContainerEntity;
+            Inventory = inventory;
+            SelectedDispenseAmount = selectedDispenseAmount;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public enum MedDispenserUiKey
+    {
+        Key
+    }
 }
+
+    // end
